@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1684746344 source:d:\versity courses\computer graphics\main_project\glut-senario-drawing\main.cpp
+1684936255 source:d:\versity courses\computer graphics\main_project\glut-senario-drawing\main.cpp
 	<windows.h>
 	<math.h>
 	<GL/gl.h>
