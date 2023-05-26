@@ -14,6 +14,9 @@ GLfloat cloud_speed = 1.0;
 GLfloat boat_position = 0.0;
 GLfloat boat_speed = 3.0;
 
+GLfloat stand_boat_position_x = 0.0;
+GLfloat stand_boat_position_y = 0.0;
+
 void cloud_movement(int value)
 {
     if (cloud_position > 1450)
@@ -30,6 +33,14 @@ void boat_movement(int value)
     boat_position -= boat_speed;
     glutPostRedisplay();
     glutTimerFunc(100, boat_movement, 0);
+}
+
+void draw_line(GLfloat x1, GLfloat y1, GLfloat x2, GLfloat y2)
+{
+    glBegin(GL_LINES);
+    glVertex2f(x1, y1);
+    glVertex2f(x2, y2);
+    glEnd();
 }
 
 void draw_solid_circle(GLfloat x, GLfloat y, GLfloat radius)
@@ -87,6 +98,41 @@ void draw_boat(int start_x, int start_y, int base[3], int shade[3], int sail[3])
     glVertex2d(start_x + 330, start_y + 120);
     glVertex2d(start_x + 150, start_y + 180);
     glEnd();
+
+}
+
+void draw_building(GLfloat start_x, GLfloat start_y,int floor_count, int body[3], int border[3])
+{
+    for (int i = 0; i < floor_count; i++)
+    {
+        glColor3ub(body[0], body[1], body[2]);
+        glRectf(start_x, start_y + (i * 115), start_x + 300, start_y + 100 + (i * 115));
+        glColor3ub(border[0], border[1], border[2]);
+        glRectf(start_x - 30, start_y + 100 + (i * 115), start_x + 330, start_y + 115 + (i * 115));
+        // window left
+        glColor3ub(0, 0, 0);
+        glRectf(start_x + 60, start_y + 60 + (i * 115), start_x + 90, start_y + 90 + (i * 115));
+        // window right
+        glRectf(start_x + 210, start_y + 60 + (i * 115), start_x + 240, start_y + 90 + (i * 115));
+    }
+    // door
+    glColor3ub(102, 51, 0);
+    glRectf(start_x + 130, start_y, start_x + 170, start_y + 70);
+    glColor3ub(0, 0, 0);
+    draw_line(start_x + 130, start_y, start_x + 130, start_y + 70);
+    draw_line(start_x + 170, start_y, start_x + 170, start_y + 70);
+    draw_line(start_x + 150, start_y, start_x + 150, start_y + 50);
+    draw_line(start_x + 130, start_y  + 70, start_x + 170, start_y + 70);
+    draw_line(start_x + 130, start_y  + 70, start_x + 150, start_y + 50);
+    draw_line(start_x + 170, start_y  + 70, start_x + 150, start_y + 50);
+
+    // roof top border
+    for (int j = start_x - 30; j <= start_x + 330; j += 10)
+    {
+        draw_line(j, start_y + (floor_count * 115), j, start_y + 15 + (floor_count * 115));
+    }
+
+    draw_line(start_x - 30, start_y + 15 + (floor_count * 115), start_x + 330, start_y + 15 + (floor_count * 115));
 
 }
 
@@ -217,24 +263,32 @@ void boats()
     int base_1[3] = {0, 0, 0}, shade_1[3] = {153, 76, 0}, sail_1[3] = {0, 0, 204};
     glColor3ub(204, 153, 0);
     glRectf(985.0, 300.0, 995.0, 450.0);
-    glBegin(GL_QUADS);
-    glVertex2d(990, 392);
-    glVertex2d(1140, 302);
-    glVertex2d(1140, 298);
-    glVertex2d(990, 388);
-    glEnd();
+    if (stand_boat_position_x == 0.0 && stand_boat_position_y == 0.0)
+    {
+        glBegin(GL_QUADS);
+        glVertex2d(990, 392);
+        glVertex2d(1140, 302);
+        glVertex2d(1140, 298);
+        glVertex2d(990, 388);
+        glEnd();
+    }
+    glPushMatrix();
+    glTranslatef(stand_boat_position_x, stand_boat_position_y, 0.0);
     draw_boat(1110, 300, base_1, shade_1, sail_1);
+    glPopMatrix();
 }
 
 void light_source()
 {
     if (isNight)
     {
+        // moon
         glColor3ub(246, 241, 213);
         draw_solid_circle(120.0, 960.0, 90);
     }
     else
     {
+        // sun
         glColor3ub(253, 184, 19);
         draw_solid_circle(1680.0, 900.0, 150);
     }
@@ -267,6 +321,39 @@ void river()
     glEnd();
 }
 
+void buildings()
+{
+    // left building
+    int body_1[3] = {102, 107, 113}, border_1[3] = {230, 238, 241};
+    draw_building(90, 300, 3, body_1, border_1);
+
+    // right building
+    int body_2[3] = {255, 221, 84}, border_2[3] = {255, 128, 0};
+    draw_building(470, 300, 4, body_2, border_2);
+}
+
+void road()
+{
+    glColor3ub(135, 135, 135);
+    glBegin(GL_QUADS);
+    glVertex2d(210, 300);
+    glVertex2d(270, 300);
+    glVertex2d(445, 150);
+    glVertex2d(445, 90);
+    glEnd();
+    glBegin(GL_QUADS);
+    glVertex2d(590, 300);
+    glVertex2d(650, 300);
+    glVertex2d(445, 90);
+    glVertex2d(445, 150);
+    glEnd();
+    glRectd(415, 150, 475, 0);
+
+    glColor3ub(239, 172, 31);
+    glRectd(443, 90, 447, 0);
+
+}
+
 void display(void)
 {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -278,6 +365,8 @@ void display(void)
     river();
     ground();
     boats();
+    road();
+    buildings();
 
 
     glFlush();
@@ -301,6 +390,14 @@ void fun_keys(unsigned char key, int x, int y)
             cloud_speed = 1.0;
             boat_speed = 3.0;
             break;
+        case 'r':
+            boat_position = 0.0;
+            boat_speed = 1.0;
+            cloud_position = 0.0;
+            cloud_speed = 1.0;
+            stand_boat_position_x = 0.0;
+            stand_boat_position_y = 0.0;
+            break;
         case '+':
             if (cloud_speed <= 10)
                 cloud_speed++;
@@ -320,6 +417,32 @@ void fun_keys(unsigned char key, int x, int y)
     glutPostRedisplay();
 }
 
+void spe_fun_key(int key, int x, int y)
+{
+    switch(key)
+    {
+        case GLUT_KEY_LEFT:
+            if (stand_boat_position_x > 0.0)
+                stand_boat_position_x -= 3;
+            break;
+        case GLUT_KEY_RIGHT:
+            if (stand_boat_position_x < 400.0)
+                stand_boat_position_x +=3;
+            break;
+        case GLUT_KEY_UP:
+            if (stand_boat_position_y < 400.0)
+                stand_boat_position_y +=3;
+            break;
+        case GLUT_KEY_DOWN:
+            if (stand_boat_position_y > -400.0)
+                stand_boat_position_y -=3;
+            break;
+        default:
+        break;
+    }
+    glutPostRedisplay();
+}
+
 void init(void)
 {
     glClearColor( 1.0, 1.0, 1.0, 1.0);
@@ -330,11 +453,12 @@ int main(int argc, char** argv)
 {
     glutInit(&argc, argv);
     glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB);
-    glutInitWindowSize(1920, 1080);
+    glutInitWindowSize(960, 540);
     glutInitWindowPosition(0, 0);
     glutCreateWindow("Village Scenario");
     init();
     glutKeyboardFunc(fun_keys);
+    glutSpecialFunc(spe_fun_key);
     glutDisplayFunc(display);
     glutTimerFunc(100, cloud_movement, 0);
     glutTimerFunc(100, boat_movement, 0);

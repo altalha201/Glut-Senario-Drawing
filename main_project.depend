@@ -214,7 +214,7 @@
 
 1228530734 c:\program files (x86)\codeblocks\mingw\include\gl\gl.h
 
-1402185802 c:\program files (x86)\codeblocks\mingw\include\gl\glut.h
+1675748223 c:\program files (x86)\codeblocks\mingw\include\gl\glut.h
 	<windows.h>
 	<stdlib.h>
 	<GL/gl.h>
@@ -223,4 +223,21 @@
 1228530734 c:\program files (x86)\codeblocks\mingw\include\gl\glu.h
 	<stddef.h>
 	<GL/gl.h>
+
+1685081832 source:d:\progrem fiels\computer graphis\glut-senario-drawing\main.cpp
+	<GL/gl.h>
+	<GL/glut.h>
+	<windows.h>
+	<math.h>
+	<stdio.h>
+
+1250308680 c:\program files (x86)\codeblocks\mingw\include\stdio.h
+	<_mingw.h>
+	<stddef.h>
+	<stdarg.h>
+	<sys/types.h>
+
+1250308682 c:\program files (x86)\codeblocks\mingw\include\sys\types.h
+	<_mingw.h>
+	<stddef.h>
 
