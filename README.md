@@ -7,4 +7,4 @@
 ![Alt Text](git_components/Night.png)
 
 ### Relesed Program
-[Runable File](./bin/Release/main_project.exe)
+[**Glut Senario** exicutable Program](./Glut-Senario.exe)
