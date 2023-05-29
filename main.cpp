@@ -252,13 +252,6 @@ void hills()
 
 void boats()
 {
-    // Moving boat
-    glPushMatrix();
-    glTranslatef(boat_position, 0.0, 0.0);
-    int base_2[3] = {102, 0, 1}, shade_2[3] = {255, 153, 0}, sail_2[3] = {0, 0, 102};
-    draw_boat(300, 650, base_2, shade_2, sail_2);
-    glPopMatrix();
-
     // Non moving Boat
     int base_1[3] = {0, 0, 0}, shade_1[3] = {153, 76, 0}, sail_1[3] = {0, 0, 204};
     glColor3ub(204, 153, 0);
@@ -275,6 +268,13 @@ void boats()
     glPushMatrix();
     glTranslatef(stand_boat_position_x, stand_boat_position_y, 0.0);
     draw_boat(1110, 300, base_1, shade_1, sail_1);
+    glPopMatrix();
+
+    // Moving boat
+    glPushMatrix();
+    glTranslatef(boat_position, 0.0, 0.0);
+    int base_2[3] = {102, 0, 1}, shade_2[3] = {255, 153, 0}, sail_2[3] = {0, 0, 102};
+    draw_boat(300, 650, base_2, shade_2, sail_2);
     glPopMatrix();
 }
 
@@ -424,6 +424,8 @@ void spe_fun_key(int key, int x, int y)
         case GLUT_KEY_LEFT:
             if (stand_boat_position_x > 0.0)
                 stand_boat_position_x -= 3;
+            if (stand_boat_position_y > 220.0 && stand_boat_position_x > -1100.0)
+                stand_boat_position_x -= 3;
             break;
         case GLUT_KEY_RIGHT:
             if (stand_boat_position_x < 400.0)
@@ -434,7 +436,9 @@ void spe_fun_key(int key, int x, int y)
                 stand_boat_position_y +=3;
             break;
         case GLUT_KEY_DOWN:
-            if (stand_boat_position_y > -400.0)
+            if (stand_boat_position_x < 0.0 && stand_boat_position_y > 210)
+                stand_boat_position_y -=3;
+            if (stand_boat_position_y > -400.0 && stand_boat_position_x >= 0.0)
                 stand_boat_position_y -=3;
             break;
         default:

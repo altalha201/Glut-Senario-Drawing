@@ -1,9 +1,10 @@
 # depslib dependency file v1.0
-1684936255 source:d:\versity courses\computer graphics\main_project\glut-senario-drawing\main.cpp
-	<windows.h>
-	<math.h>
+1685367366 source:d:\versity courses\computer graphics\main_project\glut-senario-drawing\main.cpp
 	<GL/gl.h>
 	<GL/glut.h>
+	<windows.h>
+	<math.h>
+	<stdio.h>
 
 1228530732 c:\program files (x86)\codeblocks\mingw\include\windows.h
 	<winresrc.h>
@@ -214,7 +215,7 @@
 
 1228530734 c:\program files (x86)\codeblocks\mingw\include\gl\gl.h
 
-1675748223 c:\program files (x86)\codeblocks\mingw\include\gl\glut.h
+1402185802 c:\program files (x86)\codeblocks\mingw\include\gl\glut.h
 	<windows.h>
 	<stdlib.h>
 	<GL/gl.h>
